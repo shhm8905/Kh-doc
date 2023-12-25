@@ -1,0 +1,23 @@
+.left{
+    padding: 30px;
+    min-height: 90vh;
+    background-color: #f9f9f9;
+    grid-area: leftside;
+    .items{
+        padding-left: 40px;
+        list-style:none ;
+        .sub{
+            padding: 5px 0;
+            font-size: 20px;
+            font-weight: lighter;
+            cursor: pointer;
+        }
+        .item{
+            position: relative;
+            .contents{
+                padding-left:30px ;
+                list-style: none;
+            } 
+        }
+    }
+}

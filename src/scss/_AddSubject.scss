@@ -1,0 +1,17 @@
+.inpsub{
+    input{
+        padding: 5px;
+        border-radius: 5px;
+    }
+    button{
+        padding: 5px;
+        cursor: pointer;
+        background-color: #333;
+        color: #fff;
+        border-radius: 5px;
+    }
+    .errmsg{
+        color:red;
+        padding-top: 5px;
+    }
+}
