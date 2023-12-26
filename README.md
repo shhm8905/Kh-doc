@@ -1,4 +1,4 @@
-# modal-project
+# Kh-doc
 
 ## Project setup
 ```
