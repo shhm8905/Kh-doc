@@ -1,4 +1,4 @@
-.editor{
+.my-editor{
     position: relative;
     grid-area: editor;
     button[name=submit]{
@@ -12,4 +12,5 @@
             font-size: 35px;
         }
     }
+    
 }

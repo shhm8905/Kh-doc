@@ -24,13 +24,20 @@
     }
 }
 .trumbowyg-box{
-    min-height: 90vh;
+    height: calc(100vh - 80px);
 }
 .trumbowyg-button-pane{
     background: #c7c7c7;
 }
 .trumbowyg-editor-box, .trumbowyg-textarea {
     background-color: #fefefe;
+}
+.trumbowyg-editor[contenteditable=true]::before{
+    content: 'Write your Branch name and add the content';
+    display: block;
+    color: #999;
+    font-size: 30px;
+    text-align: center;
 }
 .branch-name{
     text-align: center;

@@ -1,5 +1,5 @@
 <template>
-    <div class="editor">
+    <div class="my-editor">
         <button name="submit" title="Add New Branch" @click="handleSubmit"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
         <trumbowyg v-model="form.content" :config="configs" class="form-control"></trumbowyg>
     </div>
@@ -13,7 +13,8 @@ import 'trumbowyg/dist/plugins/colors/trumbowyg.colors';
 import 'trumbowyg/dist/plugins/colors/ui/trumbowyg.colors.css';
 import "trumbowyg/dist/plugins/history/trumbowyg.history.min.js";
 import "trumbowyg/dist/plugins/base64/trumbowyg.base64.min.js";
-
+import 'trumbowyg';
+import $ from 'jquery';
 
 export default{
     name:'Editor',
@@ -21,12 +22,20 @@ export default{
     components: {
       "trumbowyg": Trumbowyg
     },
- 
+
+    setup(){
+        
+        $('.items').css('background-color','#fff');
+        
+
+    
+    },
+    
     data(){
         return{
-            form: {
-                content: `<h1 class="branch-name" id="branch-name"></h1>`,
-                body: null,
+            form:{
+                content: `<h1 class="branch-name" id="branch-name"></h1>` ,
+                body:null
             },
             configs: {
                 autogrow: true,
@@ -56,9 +65,9 @@ export default{
                 },
                 
             },
-            
         }
     },
+    
     methods:{
         ...mapActions(['addBranch']),
         handleSubmit(){
@@ -67,7 +76,7 @@ export default{
                 id:Math.floor(Math.random()*10000),
                 title: branchName.innerText ,
                 branches:[],
-                contents:"",
+                contents: this.form.content,
                 isShow:false,
                 isAdd:false,
             }; 
@@ -76,9 +85,11 @@ export default{
             }else{
                 alert('Please the name of branch most to be more than two letters!!')
             }
-            
-            
         },
+
+        handleChange(){
+            console.log('yes');
+        }
     }
 }
 

@@ -1,14 +1,14 @@
 <template>
   <div class="app">
     <h1 class="header-title">{{ title }}</h1>
-    <div class="template">
+    <div class="template" v-if="isEditor">
       <LeftSide/>
-      <Editor v-if="isEditor"/>
-      <div class="editor branchInfo" v-else>
-        <div class="caption">
-          <p>Either there is no branches or you didn't choosing a branch to view so add new branch or edit any available branch <span>by right click on the branch.</span> </p>
-          <button @click="showEditor">Add New Branch</button>
-        </div>
+      <Editor/>
+    </div>
+    <div class="branchInfo" v-else>
+      <div class="caption">
+        <p>Either there is no branches or you didn't choosing a branch to view so add new branch or edit any available branch <span>by right click on the branch.</span> </p>
+        <button @click="showEditor">Open The Editor</button>
       </div>
     </div>
   </div>
@@ -24,11 +24,11 @@ export default {
   components:{ LeftSide, Editor },
   data(){
     return{
-      title:'Welcome to kh best documentation side :)'
+      title:'Welcome to kh best documentation side :)',
     }
   },
   computed:{
-    ...mapGetters(["isEditor"])
+    ...mapGetters(["isEditor"]),
   },
   methods:{
     ...mapMutations(["showEditor"]),

@@ -1,15 +1,21 @@
 import axios from "axios";
+import 'trumbowyg';
+import $ from 'jquery';
 
 const API = axios.create({baseURL:"http://localhost:3000/mainlist"});
 
 const state={
     mainlist:[],
     isEditor:false,
+    branchContent: `<h1 class="branch-name" id="branch-name"></h1>`,
+    isUpdate:false,
 }
 
 const getters ={
     mainlist:(state)=>state.mainlist,
     isEditor:(state)=>state.isEditor,
+    branchContent:(state)=>state.branchContent,
+    isUpdate:(state)=>state.isUpdate,
 }
 
 const actions={
@@ -21,13 +27,20 @@ const actions={
         .then((res)=>res.data).catch((err)=>console.log(err));
         commit("getMainlist",data);
     },
+
+    // Get a specific branch
+    async getBranch({commit},id){
+        const data = await API.get(`/${id}`)
+        .then((res)=>res.data).catch((err)=>console.log(err));
+        commit('getBranch',data);
+    },
     // Add new branch
     async addBranch({commit},branch){
         const data = await API.post('/',branch)
         .then((res)=>res.data).catch((err)=>console.log(err));
         commit('addBranch',data);
     },
-    // Add branch in main branch 
+    // Update main branch  branch in main branch 
     async addBranch1({commit},branch){
         const data = await API.patch(`/${branch.id}`,branch)
         .then((res)=>res.data).catch((err)=>console.log(err));
@@ -43,6 +56,13 @@ const mutations = {
         }else{
             state.isEditor=false;
         }
+    },
+    // Get a specific branch
+    getBranch:(state,data)=>{
+        state.branchContent = data.content;
+        $('.form-control').trumbowyg('html',state.branchContent);
+        state.isEditor=true;
+        state.isUpdate=true;
     },
     // Add new main branch
     addBranch:(state,data)=>{
@@ -106,11 +126,54 @@ const mutations = {
     },
     // Show menu list(Adding,Editing,Deleting)
     showMenu:(state,id)=>{
-        state.mainlist.map((item)=>{
-            if(!item.isAdd&&item.id===id){
-                return(item.isAdd=true);
+        // Check which branch is clicked
+
+        // Check the first list
+        state.mainlist.map((list)=>{
+            if(list.id===id&&!list.isAdd){
+                list.isAdd=true;
             }else{
-                return item.isAdd=false;
+                list.isAdd=false;
+            }
+            // Check the second list 
+            if(list.branches.length>0){
+                list.branches.map((branch)=>{
+                    if(branch.id===id&&!branch.isAdd&&!list.isAdd){
+                        branch.isAdd=true;
+                    }else{
+                        branch.isAdd=false;
+                    }
+                    // Check the third list 
+                    if(branch.branches.length>0){
+                        branch.branches.map((branch1)=>{
+                            if(branch1.id===id&&!branch1.isAdd&&!branch.isAdd&&!list.isAdd){
+                                branch1.isAdd=true;
+                            }else{
+                                branch1.isAdd=false;
+                            }
+                            // Check the fourth list
+                            if(branch1.branches.length>0){
+                                branch1.branches.map((branch2)=>{
+                                    if(branch2.id===id&&!branch2.isAdd&&!branch1.isAdd&&!branch.isAdd&&!list.isAdd){
+                                        branch2.isAdd=true;
+                                    }else{
+                                        branch2.isAdd=false;
+                                    }
+                                    // Check the fifth list
+                                    if(branch2.branches.length>0){
+                                        branch2.branches.map((branch3)=>{
+                                            if(branch3.id===id&&!branch3.isAdd&&!branch2.isAdd&&!branch1.isAdd&&!branch.isAdd&&!list.isAdd){
+                                                branch3.isAdd=true;
+                                            }else{
+                                                branch3.isAdd=false;
+                                            }
+                                        })
+                                    }
+                                })
+                            }
+                        })
+                    }
+                })
             }
         })
     },
